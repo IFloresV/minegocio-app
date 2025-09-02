@@ -3,10 +3,10 @@ import { ScrollView, Text, View } from "react-native";
 export default function HomeScreen() {
    return (
       <>
-         <ScrollView className="flex-1 bg-movapp-purple">
+         <ScrollView className="flex-1 bg-mn-base">
             {/* Hero Section */}
-            <View className="bg-gradient-to-r from-movapp-blue to-movapp-purple p-6 m-4 rounded-xl mt-48">
-               <Text className="text-white text-2xl font-bold text-center mb-2">¡Bienvenido a zermat! 🚀</Text>
+            <View className="bg-gradient-to-r from-mn-primary to-mn-secondary p-6 m-4 rounded-xl mt-48">
+               <Text className="text-mn-fc text-2xl font-bold text-center mb-2">¡Bienvenido a zermat! 🚀</Text>
             </View>
          </ScrollView>
       </>

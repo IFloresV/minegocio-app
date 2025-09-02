@@ -6,8 +6,11 @@ module.exports = {
    theme: {
       extend: {
          colors: {
-            factuticket: {
-               cian: "#3bd9eb",
+            mn: {
+               base: "#DE1916",
+               primary: "#16A5DE",
+               secondary: "#3716DE",
+               fc: "#FFFFFF",
 
                dark: "#1e1b4b",
                light: "#f8fafc",
