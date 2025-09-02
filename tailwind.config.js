@@ -7,7 +7,7 @@ module.exports = {
       extend: {
          colors: {
             mn: {
-               base: "#DE1916",
+               base: "#ff0143",
                primary: "#16A5DE",
                secondary: "#3716DE",
                fc: "#FFFFFF",
