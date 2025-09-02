@@ -16,6 +16,12 @@ module.exports = {
                light: "#f8fafc",
             },
          },
+         fontFamily: {
+            inter: ["Inter-Regular"],
+            "inter-bold": ["Inter-Bold"],
+            "inter-light": ["Inter-Light"],
+            "inter-italic": ["Inter-Italic"],
+         },
       },
    },
    plugins: [],
