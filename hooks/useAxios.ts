@@ -26,7 +26,7 @@ export const useAxios = (endpoint: EndpointFn, timeout = 0) => {
          setLoading(true);
          const response = await endpoint(...args);
          const result = response.data;
-         console.log("result API", result);
+         // console.log("result API", result);
          setData(result);
 
          if (!result?.success) {

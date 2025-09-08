@@ -6,33 +6,11 @@ import Service from "@/api/Service";
 import UserContext from "@/context/UserContext";
 import { useAxios } from "@/hooks/useAxios";
 
-const { width } = Dimensions.get("window");
+// Importaciones de interfaces y utils
+import { DashboardData } from "@/interfaces";
+import { formatCurrency, formatPercentage } from "@/utils/currency.utils";
 
-interface DashboardData {
-   section1: Array<{
-      CategoriaActual: string;
-      CategoriaActualColor: string;
-      Periodo: string;
-   }>;
-   ganancia?: {
-      comisiones: number;
-      compraVenta: number;
-   };
-   compraPersonal?: {
-      amount: number;
-      meta: number;
-      percentage: number;
-   };
-   compraGrupo?: {
-      amount: number;
-      meta: number;
-      percentage: number;
-   };
-   liderazgo?: {
-      level: string;
-      progress: number;
-   };
-}
+const { width } = Dimensions.get("window");
 
 const Dashboard = () => {
    const userContext = useContext(UserContext);
@@ -55,18 +33,6 @@ const Dashboard = () => {
       await fetchData(payload);
    };
 
-   const formatCurrency = (amount: number) => {
-      return new Intl.NumberFormat("es-MX", {
-         style: "currency",
-         currency: "MXN",
-         minimumFractionDigits: 2,
-      }).format(amount);
-   };
-
-   const formatPercentage = (percentage: number) => {
-      return `${percentage.toFixed(1)}%`;
-   };
-
    if (loading) {
       return (
          <View className="flex-1 justify-center items-center bg-gray-50">
@@ -86,7 +52,21 @@ const Dashboard = () => {
       );
    }
 
-   const dashboardData: DashboardData = data?.data || {};
+   const dashboardData: DashboardData = data?.data || {
+      section1: [],
+      section2: [],
+      section3: [],
+      section4: [],
+      section5: [],
+      section6: [],
+   };
+
+   // Extraer datos de las secciones
+   const section1 = dashboardData.section1?.[0];
+   const section3 = dashboardData.section3?.[0];
+   const section4 = dashboardData.section4?.[0];
+   const section5 = dashboardData.section5?.[0];
+   const section6 = dashboardData.section6?.[0];
 
    return (
       <View className="flex-1 bg-gray-50">
@@ -112,17 +92,13 @@ const Dashboard = () => {
                   <View
                      className="w-3 h-3 rounded-full mr-2"
                      style={{
-                        backgroundColor: dashboardData.section1?.[0]?.CategoriaActualColor || "#22C55E",
+                        backgroundColor: `#${section1?.CategoriaActualColor}` || "#22C55E",
                      }}
                   />
-                  <Text className="text-white font-semibold">
-                     {dashboardData.section1?.[0]?.CategoriaActual || "Emprendedor"}
-                  </Text>
+                  <Text className="text-white font-semibold">{section1?.CategoriaActual || "Emprendedor"}</Text>
                </View>
 
-               <Text className="text-white/80 text-sm">
-                  Período: {dashboardData.section1?.[0]?.Periodo || "12/2024"}
-               </Text>
+               <Text className="text-white/80 text-sm">Período: {section1?.Periodo || ""}</Text>
             </View>
          </View>
 
@@ -135,20 +111,18 @@ const Dashboard = () => {
             <View className="bg-white rounded-2xl p-6 mb-4 shadow-sm">
                <Text className="text-gray-600 text-sm mb-1">Mi Ganancia</Text>
                <Text className="text-2xl font-bold text-gray-800 mb-4">
-                  {formatCurrency(dashboardData.ganancia?.comisiones || 0)}
+                  {formatCurrency(section1?.MiIngreso || "0")}
                </Text>
 
                <View className="flex-row justify-between">
                   <View>
                      <Text className="text-gray-500 text-xs">Comisiones</Text>
-                     <Text className="text-gray-800 font-semibold">
-                        {formatCurrency(dashboardData.ganancia?.comisiones || 0)}
-                     </Text>
+                     <Text className="text-gray-800 font-semibold">{formatCurrency(section1?.MiIngreso || "0")}</Text>
                   </View>
                   <View>
                      <Text className="text-gray-500 text-xs">Compra-Venta</Text>
                      <Text className="text-gray-800 font-semibold">
-                        {formatCurrency(dashboardData.ganancia?.compraVenta || 0)}
+                        {formatCurrency(section1?.GananciaCompra || "0")}
                      </Text>
                   </View>
                </View>
@@ -161,16 +135,16 @@ const Dashboard = () => {
                   <View className="bg-blue-600 rounded-2xl p-4">
                      <Text className="text-white/80 text-xs mb-1">Compra Personal</Text>
                      <Text className="text-white text-xl font-bold mb-2">
-                        {formatCurrency(dashboardData.compraPersonal?.amount || 124203.89)}
+                        {formatCurrency(section1?.MontoCompraPersonalActual || "0")}
                      </Text>
 
                      <View className="flex-row items-center justify-between">
                         <View>
                            <Text className="text-white/60 text-xs">
-                              Meta {formatCurrency(dashboardData.compraPersonal?.meta || 0)}
+                              Meta {formatCurrency(section1?.MetaCompraPersonalActual || "0")}
                            </Text>
                            <Text className="text-green-300 text-xs">
-                              {formatPercentage(dashboardData.compraPersonal?.percentage || 0)}
+                              {formatPercentage(section1?.PorcentajeMetaCompraPersonalActual || 0)}
                            </Text>
                         </View>
                         <Feather name="trending-up" size={16} color="white" />
@@ -183,13 +157,20 @@ const Dashboard = () => {
                   <View className="bg-white rounded-2xl p-4 shadow-sm">
                      <View className="flex-row items-center mb-2">
                         <Feather name="star" size={16} color="#F59E0B" />
-                        <Text className="text-orange-500 text-xs font-medium ml-1">Líder Premier</Text>
+                        <Text className="text-orange-500 text-xs font-medium ml-1">
+                           {section3?.SiguienteCategoria || "Líder Premier"}
+                        </Text>
                      </View>
 
                      <Text className="text-gray-600 text-xs mb-1">Compra Personal</Text>
-                     <Text className="text-blue-600 text-xl font-bold">{formatCurrency(124203.89)}</Text>
+                     <Text className="text-blue-600 text-xl font-bold">
+                        {formatCurrency(section1?.MontoCompraPersonalActual || "0")}
+                     </Text>
 
-                     <Text className="text-green-500 text-xs mt-1">Meta $1,404.90 (8740.76 %)</Text>
+                     <Text className="text-green-500 text-xs mt-1">
+                        Meta {formatCurrency(section3?.MetaCompraPersonalReto || "0")} (
+                        {formatPercentage(section3?.PorcentajeMetaCompraPersonalReto || 0)})
+                     </Text>
                   </View>
                </View>
             </View>
@@ -199,10 +180,15 @@ const Dashboard = () => {
                <View className="flex-1 mr-2">
                   <View className="bg-white rounded-2xl p-4 shadow-sm">
                      <Text className="text-gray-600 text-xs mb-1">Compra Grupo</Text>
-                     <Text className="text-2xl font-bold text-gray-800 mb-2">{formatCurrency(926.53)}</Text>
+                     <Text className="text-2xl font-bold text-gray-800 mb-2">
+                        {formatCurrency(section1?.CompraGrupoActual || "0")}
+                     </Text>
 
                      <View className="flex-row items-center">
-                        <Text className="text-green-500 text-xs">Meta $0.00 (0 %)</Text>
+                        <Text className="text-green-500 text-xs">
+                           Meta {formatCurrency(section1?.MetaCompraGrupoActual || "0")} (
+                           {formatPercentage(section1?.PorcentajeMetaCompraGrupoActual || 0)})
+                        </Text>
                         <Feather name="arrow-down" size={12} color="#22C55E" className="ml-1" />
                      </View>
                   </View>
@@ -210,28 +196,54 @@ const Dashboard = () => {
 
                <View className="flex-1 ml-2">
                   <View className="bg-white rounded-2xl p-4 shadow-sm">
-                     <Text className="text-gray-600 text-xs mb-1">Compra Grupo</Text>
-                     <Text className="text-blue-600 text-2xl font-bold mb-2">{formatCurrency(926.53)}</Text>
+                     <Text className="text-gray-600 text-xs mb-1">Compra Grupo Reto</Text>
+                     <Text className="text-blue-600 text-2xl font-bold mb-2">
+                        {formatCurrency(section3?.CompraGrupoReto || "0")}
+                     </Text>
 
                      <View className="flex-row items-center">
-                        <Text className="text-red-500 text-xs">Meta $3,000.00 (-69.12 %)</Text>
+                        <Text className="text-red-500 text-xs">
+                           Meta {formatCurrency(section3?.MetaCompraGrupoReto || "0")} (
+                           {formatPercentage(section3?.PorcentajeMetaCompraGrupoReto || 0)})
+                        </Text>
                         <Feather name="arrow-down" size={12} color="#EF4444" className="ml-1" />
                      </View>
                   </View>
                </View>
             </View>
 
-            {/* Liderazgo Cards */}
-            <View className="flex-row mb-6">
+            <View className="flex-row mb-4">
                <View className="flex-1 mr-2">
-                  <View className="bg-gray-100 rounded-2xl p-4">
-                     <Text className="text-gray-600 text-center font-medium">Liderazgo</Text>
+                  <View className="bg-white rounded-2xl p-4 shadow-sm">
+                     <Text className="text-gray-600 text-xs mb-1">Compra Grupo</Text>
+                     <Text className="text-2xl font-bold text-gray-800 mb-2">
+                        {formatCurrency(section1?.CompraGrupoActual || "0")}
+                     </Text>
+
+                     <View className="flex-row items-center">
+                        <Text className="text-green-500 text-xs">
+                           Meta {formatCurrency(section1?.MetaCompraGrupoActual || "0")} (
+                           {formatPercentage(section1?.PorcentajeMetaCompraGrupoActual || 0)})
+                        </Text>
+                        <Feather name="arrow-down" size={12} color="#22C55E" className="ml-1" />
+                     </View>
                   </View>
                </View>
 
                <View className="flex-1 ml-2">
-                  <View className="bg-gray-100 rounded-2xl p-4">
-                     <Text className="text-gray-600 text-center font-medium">Liderazgo</Text>
+                  <View className="bg-white rounded-2xl p-4 shadow-sm">
+                     <Text className="text-gray-600 text-xs mb-1">Compra Grupo Reto</Text>
+                     <Text className="text-blue-600 text-2xl font-bold mb-2">
+                        {formatCurrency(section3?.CompraGrupoReto || "0")}
+                     </Text>
+
+                     <View className="flex-row items-center">
+                        <Text className="text-red-500 text-xs">
+                           Meta {formatCurrency(section3?.MetaCompraGrupoReto || "0")} (
+                           {formatPercentage(section3?.PorcentajeMetaCompraGrupoReto || 0)})
+                        </Text>
+                        <Feather name="arrow-down" size={12} color="#EF4444" className="ml-1" />
+                     </View>
                   </View>
                </View>
             </View>
@@ -240,15 +252,21 @@ const Dashboard = () => {
             <View className="bg-green-50 border border-green-200 rounded-2xl p-4 mb-4">
                <View className="flex-row items-center justify-between">
                   <View className="flex-row items-center">
-                     <View className="w-3 h-3 bg-green-500 rounded-full mr-2" />
+                     <View
+                        className="w-3 h-3 rounded-full mr-2"
+                        style={{ backgroundColor: section4?.Color || "#22C55E" }}
+                     />
                      <View>
-                        <Text className="text-green-800 font-semibold">Emprendedor</Text>
+                        <Text className="text-green-800 font-semibold">{section4?.Descripcion || "Emprendedor"}</Text>
                         <Text className="text-green-600 text-xs">Activo</Text>
                      </View>
                   </View>
 
                   <View className="items-end">
-                     <Text className="text-green-600 text-xs">Logrado 0 de 3 - 0%</Text>
+                     <Text className="text-green-600 text-xs">
+                        Logrado {section4?.LideresActuales || 0} de {section4?.LideresRequerido || 3} -{" "}
+                        {formatPercentage(section4?.Porcentaje || 0)}
+                     </Text>
                      <Feather name="check-circle" size={20} color="#22C55E" />
                   </View>
                </View>
@@ -261,19 +279,28 @@ const Dashboard = () => {
                <View className="flex-row">
                   <View className="flex-1 bg-white rounded-xl p-3 mr-2">
                      <Text className="text-gray-600 text-xs text-center">Total</Text>
-                     <Text className="text-gray-800 font-bold text-center">{formatCurrency(151522.0)}</Text>
+                     <Text className="text-gray-800 font-bold text-center">
+                        {formatCurrency(section5?.Total || "0")}
+                     </Text>
                   </View>
 
                   <View className="flex-1 bg-white rounded-xl p-3 ml-2">
                      <Text className="text-gray-600 text-xs text-center">Comisionable</Text>
-                     <Text className="text-gray-800 font-bold text-center">{formatCurrency(130776.0)}</Text>
+                     <Text className="text-gray-800 font-bold text-center">
+                        {formatCurrency(section5?.TotalComisionable || "0")}
+                     </Text>
                   </View>
                </View>
             </View>
 
             <TouchableOpacity>
                <View className="bg-mn-primary rounded-2xl p-4 mb-2">
-                  <Text className="text-white font-bold text-center text-lg">Ingresos</Text>
+                  <View className="flex-row items-center justify-center">
+                     <Text className="text-white font-bold text-lg mr-2">Ingresos</Text>
+                     <View className="bg-white/20 rounded-full px-2 py-1">
+                        <Text className="text-white text-xs font-semibold">{section6?.Ingresos || 0}</Text>
+                     </View>
+                  </View>
                </View>
             </TouchableOpacity>
 

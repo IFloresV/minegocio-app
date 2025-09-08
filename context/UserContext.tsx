@@ -1,36 +1,9 @@
 // @context/UserContext.tsx
-import React, { createContext, ReactNode, useReducer } from "react";
+import { UserContextType, UserState } from "@/interfaces/user.interfaces";
+import { createContext, ReactNode, useReducer } from "react";
 
 const LOGIN = "LOGIN";
 const LOGOUT = "LOGOUT";
-
-interface UserInfo {
-   idUsuario?: string;
-   idLider?: string;
-   nombreLider?: string;
-   categoria?: string;
-   idSucursal?: string;
-   sucursal?: string;
-   color?: string;
-   tienda?: string;
-}
-
-interface UserState {
-   logged: boolean;
-   infoUser: UserInfo;
-   activeStore: number;
-}
-
-interface UserAction {
-   type: string;
-   payload?: UserInfo;
-   activeStore?: number;
-}
-
-interface UserContextType {
-   user: UserState;
-   dispatchUser: React.Dispatch<UserAction>;
-}
 
 const initUser = (): UserState => {
    return {
@@ -46,7 +19,7 @@ const initialState: UserState = {
    activeStore: 0,
 };
 
-const userReducer = (state: UserState = initialState, action: UserAction): UserState => {
+const userReducer = (state: UserState = initialState, action: any): UserState => {
    switch (action.type) {
       case LOGIN:
          return {

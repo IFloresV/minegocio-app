@@ -1,30 +1,15 @@
 // @context/RedContext.tsx
-import React, { createContext, ReactNode, useReducer } from "react";
+import { RedContextType, RedState } from "@/interfaces/red.interfaces";
+import { createContext, ReactNode, useReducer } from "react";
 
 const SETREDLEADER = "SETREDLEADER";
 const CLEARREDLEADER = "CLEARREDLEADER";
-
-interface RedState {
-   infoRed: any[];
-}
-
-interface RedAction {
-   type: string;
-   payload?: {
-      red: any[];
-   };
-}
-
-interface RedContextType {
-   red: RedState;
-   dispatchRed: React.Dispatch<RedAction>;
-}
 
 const initialState: RedState = {
    infoRed: [],
 };
 
-const redReducer = (state: RedState = initialState, action: RedAction): RedState => {
+const redReducer = (state: RedState = initialState, action: any): RedState => {
    switch (action.type) {
       case SETREDLEADER:
          return {
