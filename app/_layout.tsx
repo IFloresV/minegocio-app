@@ -2,6 +2,8 @@ import { useState } from "react";
 import "../global.css";
 
 import SplashScreen from "@/components/SplashScreen";
+import { RedProvider } from "@/context/RedContext";
+import { UserProvider } from "@/context/UserContext";
 import { Stack } from "expo-router";
 
 export default function RootLayout() {
@@ -19,9 +21,34 @@ export default function RootLayout() {
 
    return (
       <>
-         <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
-         </Stack>
+         <UserProvider>
+            <RedProvider>
+               <Stack>
+                  {/* <Stack.Screen name="login" options={{ headerShown: false }} /> */}
+                  <Stack.Screen
+                     name="index"
+                     options={{
+                        headerShown: false,
+                        title: "",
+                     }}
+                  />
+                  <Stack.Screen
+                     name="login"
+                     options={{
+                        headerShown: false,
+                        title: "",
+                     }}
+                  />
+                  <Stack.Screen
+                     name="dashboard"
+                     options={{
+                        headerShown: false,
+                        title: "",
+                     }}
+                  />
+               </Stack>
+            </RedProvider>
+         </UserProvider>
       </>
    );
 }
