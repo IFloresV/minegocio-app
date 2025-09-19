@@ -16,7 +16,17 @@
             "foregroundImage": "./assets/images/adaptive-icon.png",
             "backgroundColor": "#ffffff"
          },
-         "edgeToEdgeEnabled": true
+         "edgeToEdgeEnabled": true,
+         "statusBar": {
+            "barStyle": "light-content",
+            "backgroundColor": "#dc2626",
+            "translucent": false
+         },
+         "navigationBar": {
+            "visible": true,
+            "barStyle": "dark-content",
+            "backgroundColor": "#000000"
+         }
       },
       "web": {
          "bundler": "metro",
