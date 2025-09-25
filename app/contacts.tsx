@@ -54,7 +54,7 @@ export default function Contacts() {
 
    const loadContacts = async () => {
       try {
-         let payload = { idleader: user.infoUser.idLider, idcampaing: 20 };
+         let payload = { idleader: user.infoUser.idLider, idcampaing: campaign };
          console.log("Cargando contactos con payload:", payload);
          await fetchContacts(payload);
       } catch (error) {
@@ -237,15 +237,22 @@ export default function Contacts() {
       </View>
    );
 
+   // Header Component simplificado
+   const Header = () => (
+      <View>
+         <StatusBar barStyle="light-content" backgroundColor="#dc2626" />
+         <View className="bg-mn-base pt-20 pb-12 px-6 rounded-b-3xl">
+            <Text className="text-white text-xl font-bold text-center">Mis Clientes</Text>
+         </View>
+      </View>
+   );
+
    // Mostrar loading mientras carga
    if (loading) {
       return (
          <LayoutWithNavigation>
             <View className="flex-1 bg-gray-50">
-               <StatusBar barStyle="light-content" backgroundColor="#dc2626" />
-               <View className="bg-mn-base pt-12 pb-6 px-6 rounded-b-3xl">
-                  <Text className="text-white text-xl font-bold text-center">Mis Clientes</Text>
-               </View>
+               <Header />
                <View className="-mt-4">
                   <YearAndCampaignSelect setCampaign={setCampaign} />
                </View>
@@ -262,10 +269,7 @@ export default function Contacts() {
       return (
          <LayoutWithNavigation>
             <View className="flex-1 bg-gray-50">
-               <StatusBar barStyle="light-content" backgroundColor="#dc2626" />
-               <View className="bg-mn-base pt-12 pb-6 px-6 rounded-b-3xl">
-                  <Text className="text-white text-xl font-bold text-center">Mis Clientes</Text>
-               </View>
+               <Header />
                <View className="-mt-4">
                   <YearAndCampaignSelect setCampaign={setCampaign} />
                </View>
@@ -283,12 +287,8 @@ export default function Contacts() {
    return (
       <LayoutWithNavigation>
          <View className="flex-1 bg-gray-50">
-            <StatusBar barStyle="light-content" backgroundColor="#dc2626" />
-
-            {/* Header */}
-            <View className="bg-mn-base pt-12 pb-6 px-6 rounded-b-3xl">
-               <Text className="text-white text-xl font-bold text-center">Mis Clientes</Text>
-            </View>
+            {/* Header con SafeArea */}
+            <Header />
 
             {/* Selector de Año y Campaña */}
             <View className="-mt-4">
