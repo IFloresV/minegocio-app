@@ -24,16 +24,16 @@ const navigationItems: NavigationItem[] = [
       label: "Inicio",
    },
    {
-      name: "information",
-      icon: "info", // CAMBIADO de shopping-cart a info
-      route: "/information",
-      label: "Información", // CORREGIDO ortografía
-   },
-   {
       name: "contacts",
       icon: "users", // CAMBIADO de shopping-cart a users
       route: "/contacts",
       label: "Contactos",
+   },
+   {
+      name: "information",
+      icon: "info", // CAMBIADO de shopping-cart a info
+      route: "/information",
+      label: "Información", // CORREGIDO ortografía
    },
 ];
 

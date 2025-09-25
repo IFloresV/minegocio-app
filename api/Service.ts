@@ -37,6 +37,36 @@ const Service = {
          },
       });
    },
+
+   ContactsLeader: async (data: RequestData) => {
+      const token = await getToken();
+      return await axios.post(`${API_URL}leaders/contactsleader`, data, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: token ?? "",
+         },
+      });
+   },
+
+   Campaigns: async (data: RequestData) => {
+      const token = await getToken();
+      console.log("📤 Body enviado a API:", data);
+      return await axios.post(`${API_URL}campaign/managercampaigns`, data, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: token ?? "",
+         },
+      });
+   },
+   PeriodsYears: async () => {
+      const token = await getToken();
+      return await axios.get(`${API_URL}campaign/years`, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: token ?? "",
+         },
+      });
+   },
 };
 
 export { API_ECOMMERCE, API_URL, PATH_IMG };
