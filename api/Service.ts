@@ -67,6 +67,23 @@ const Service = {
          },
       });
    },
+
+   Information: async (data: any) => {
+      return await axios.post(`${API_URL}leaders/information`, data, {
+         headers: {
+            "Content-Type": "application/json",
+         },
+      });
+   },
+
+   CreateSlugCatalog: async (data: any) => {
+      return await axios.post(`${API_URL}leaders/createslugcatalog`, data, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: sessionStorage.getItem("MiNegocio"),
+         },
+      });
+   },
 };
 
 export { API_ECOMMERCE, API_URL, PATH_IMG };

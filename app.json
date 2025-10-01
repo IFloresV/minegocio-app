@@ -54,7 +54,8 @@
          "API_URL": "http://192.168.3.31:3003/api/",
          "API_ECOMMERCE": "https://api-zermatcatalogo.azurewebsites.net/",
          "PATH_IMG": "https://zermatinternal.com:3030/",
-         "CRYPTO_KEY": "WopZi"
+         "CRYPTO_KEY": "WopZi",
+         "PATH_CATALOGO": "http://localhost:4003/catalogo/"
       }
    }
 }

@@ -38,16 +38,7 @@ const navigationItems: NavigationItem[] = [
 ];
 
 // Rutas que no existen aún - mostrar mensaje "próximamente"
-const unavailableRoutes = [
-   "/information",
-   "/perfil",
-   "/pedidos",
-   "/pagos",
-   "/red",
-   "/reportes",
-   "/configuracion",
-   "/ayuda",
-];
+const unavailableRoutes = ["/perfil", "/pedidos", "/pagos", "/red", "/reportes", "/configuracion", "/ayuda"];
 
 const drawerOptions = [
    { icon: "user" as keyof typeof Feather.glyphMap, label: "Mi Perfil", route: "/perfil" },
@@ -93,7 +84,7 @@ export default function BottomNavigation() {
    const handleNavigation = (route: string) => {
       try {
          // Solo navegar a rutas que sabemos que existen
-         if (route === "/dashboard" || route === "/contacts") {
+         if (route === "/dashboard" || route === "/contacts" || route === "/information") {
             router.push(route);
          } else {
             Alert.alert("Próximamente", "Esta funcionalidad estará disponible pronto.", [{ text: "OK" }]);
