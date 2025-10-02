@@ -25,43 +25,18 @@ export default function RootLayout() {
          <SafeAreaProvider>
             <UserProvider>
                <RedProvider>
-                  <Stack>
-                     <Stack.Screen
-                        name="index"
-                        options={{
-                           headerShown: false,
-                           title: "",
-                        }}
-                     />
-
-                     <Stack.Screen
-                        name="dashboard"
-                        options={{
-                           headerShown: false,
-                           title: "",
-                        }}
-                     />
-                     <Stack.Screen
-                        name="information"
-                        options={{
-                           headerShown: false,
-                           title: "",
-                        }}
-                     />
-                     <Stack.Screen
-                        name="contacts"
-                        options={{
-                           headerShown: false,
-                           title: "",
-                        }}
-                     />
-                     <Stack.Screen
-                        name="accountstatus"
-                        options={{
-                           headerShown: false,
-                           title: "",
-                        }}
-                     />
+                  <Stack
+                     screenOptions={{
+                        gestureEnabled: true,
+                        gestureDirection: "horizontal",
+                        headerShown: false,
+                     }}
+                  >
+                     <Stack.Screen name="index" options={{ title: "" }} />
+                     <Stack.Screen name="dashboard" options={{ title: "" }} />
+                     <Stack.Screen name="information" options={{ title: "" }} />
+                     <Stack.Screen name="contacts" options={{ title: "" }} />
+                     <Stack.Screen name="accountstatus" options={{ title: "" }} />
                   </Stack>
                </RedProvider>
             </UserProvider>
