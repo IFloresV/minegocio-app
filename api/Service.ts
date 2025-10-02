@@ -69,18 +69,41 @@ const Service = {
    },
 
    Information: async (data: any) => {
+      const token = await getToken();
       return await axios.post(`${API_URL}leaders/information`, data, {
          headers: {
             "Content-Type": "application/json",
+            Authorization: token ?? "",
          },
       });
    },
 
    CreateSlugCatalog: async (data: any) => {
+      const token = await getToken();
       return await axios.post(`${API_URL}leaders/createslugcatalog`, data, {
          headers: {
             "Content-Type": "application/json",
-            Authorization: sessionStorage.getItem("MiNegocio"),
+            Authorization: token ?? "",
+         },
+      });
+   },
+
+   AccountStatus: async (data: any) => {
+      const token = await getToken();
+      return await axios.post(`${API_URL}leaders/edocta`, data, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: token ?? "",
+         },
+      });
+   },
+
+   AccountStatusDetail: async (data: any) => {
+      const token = await getToken();
+      return await axios.post(`${API_URL}leaders/edoctadetail`, data, {
+         headers: {
+            "Content-Type": "application/json",
+            Authorization: token ?? "",
          },
       });
    },

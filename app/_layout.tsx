@@ -55,6 +55,13 @@ export default function RootLayout() {
                            title: "",
                         }}
                      />
+                     <Stack.Screen
+                        name="accountstatus"
+                        options={{
+                           headerShown: false,
+                           title: "",
+                        }}
+                     />
                   </Stack>
                </RedProvider>
             </UserProvider>

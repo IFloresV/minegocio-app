@@ -38,16 +38,19 @@ const navigationItems: NavigationItem[] = [
 ];
 
 // Rutas que no existen aún - mostrar mensaje "próximamente"
-const unavailableRoutes = ["/perfil", "/pedidos", "/pagos", "/red", "/reportes", "/configuracion", "/ayuda"];
+const unavailableRoutes = ["/multilevelrevenue", "/closeleaders", "/store", "/configuration", "/help"];
 
 const drawerOptions = [
-   { icon: "user" as keyof typeof Feather.glyphMap, label: "Mi Perfil", route: "/perfil" },
-   { icon: "package" as keyof typeof Feather.glyphMap, label: "Mis Pedidos", route: "/pedidos" },
-   { icon: "credit-card" as keyof typeof Feather.glyphMap, label: "Pagos", route: "/pagos" },
-   { icon: "users" as keyof typeof Feather.glyphMap, label: "Mi Red", route: "/red" },
-   { icon: "bar-chart" as keyof typeof Feather.glyphMap, label: "Reportes", route: "/reportes" },
-   { icon: "settings" as keyof typeof Feather.glyphMap, label: "Configuración", route: "/configuracion" },
-   { icon: "help-circle" as keyof typeof Feather.glyphMap, label: "Ayuda", route: "/ayuda" },
+   { icon: "credit-card" as keyof typeof Feather.glyphMap, label: "Mi Estado de cuenta", route: "/accountstatus" },
+
+   { icon: "dollar-sign" as keyof typeof Feather.glyphMap, label: "Mis Ganancias", route: "/multilevelrevenue" },
+
+   { icon: "git-branch" as keyof typeof Feather.glyphMap, label: "Mis Líderes", route: "/closeleaders" },
+
+   { icon: "shopping-bag" as keyof typeof Feather.glyphMap, label: "Mi tienda", route: "/store" },
+
+   { icon: "settings" as keyof typeof Feather.glyphMap, label: "Configuración", route: "/configuration" },
+   { icon: "help-circle" as keyof typeof Feather.glyphMap, label: "Ayuda", route: "/help" },
 ];
 
 export default function BottomNavigation() {
@@ -100,23 +103,19 @@ export default function BottomNavigation() {
       closeDrawer();
 
       setTimeout(() => {
-         // Verificar si la ruta no está disponible
          if (unavailableRoutes.includes(route)) {
-            Alert.alert(
-               "Próximamente",
-               `La sección "${drawerOptions.find((opt) => opt.route === route)?.label}" estará disponible pronto.`,
-               [{ text: "OK" }],
-            );
+            const sectionLabel = drawerOptions.find((opt) => opt.route === route)?.label || "esta sección";
+
+            Alert.alert("Próximamente", `La sección "${sectionLabel}" estará disponible pronto.`, [{ text: "OK" }]);
             return;
          }
 
-         // CÓDIGO COMENTADO PARA EVITAR ERRORES - Como solicitaste
-         // try {
-         //    router.push(route);
-         // } catch (error) {
-         //    console.error(`Error navigating to ${route}:`, error);
-         //    Alert.alert("Error", "No se pudo abrir esta sección");
-         // }
+         try {
+            router.navigate(route as any);
+         } catch (error) {
+            console.error(`Error navigating to ${route}:`, error);
+            Alert.alert("Error", "No se pudo abrir esta sección");
+         }
       }, 300);
    };
 
@@ -147,15 +146,14 @@ export default function BottomNavigation() {
 
    return (
       <>
-         {/* Bottom Navigation Bar - DISEÑO CORREGIDO */}
          <View
             className="absolute bottom-0 left-0 right-0 bg-mn-base rounded-t-3xl shadow-lg"
             style={{
-               paddingBottom: insets.bottom, // RESPETA LA NAVIGATION BAR DE ANDROID
+               paddingBottom: insets.bottom,
                marginBottom: 0,
             }}
          >
-            <View className="flex-row items-center justify-around py-4 px-4">
+            <View className="flex-row items-center justify-around py-2 px-4">
                {/* Navigation Items */}
                {navigationItems.map((item) => (
                   <TouchableOpacity
@@ -184,7 +182,7 @@ export default function BottomNavigation() {
 
          {/* Drawer Modal */}
          <Modal visible={drawerVisible} transparent animationType="none" onRequestClose={closeDrawer}>
-            <View className="flex-1">
+            <View className="flex-1 mt-4">
                {/* Overlay */}
                <TouchableOpacity className="flex-1 bg-black/50" activeOpacity={1} onPress={closeDrawer} />
 
@@ -198,22 +196,22 @@ export default function BottomNavigation() {
                   <StatusBar backgroundColor="rgba(0,0,0,0.5)" barStyle="light-content" />
 
                   {/* Drawer Header */}
-                  <View className="bg-mn-base pt-12 pb-6 px-6">
+                  <View className="bg-mn-base pt-12 pb-6 px-2">
                      <View className="flex-row items-center justify-between">
                         <View className="flex-row items-center">
                            <View className="w-12 h-12 bg-white/20 rounded-full items-center justify-center mr-3">
-                              <Text className="text-white font-bold text-lg">{userName.charAt(0).toUpperCase()}</Text>
+                              <Text className="text-white font-bold text-sm">{userName.charAt(0).toUpperCase()}</Text>
                            </View>
                            <View>
-                              <Text className="text-white font-bold text-lg">{userName}</Text>
-                              <Text className="text-white/80 text-sm">
+                              <Text className="text-white font-bold text-sm">{userName}</Text>
+                              <Text className="text-white/80 text-xs ">
                                  {userContext?.user?.infoUser?.categoria || "Usuario"}
                               </Text>
                            </View>
                         </View>
-                        <TouchableOpacity onPress={closeDrawer}>
+                        {/* <TouchableOpacity onPress={closeDrawer}>
                            <Feather name="x" size={24} color="white" />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                      </View>
                   </View>
 
